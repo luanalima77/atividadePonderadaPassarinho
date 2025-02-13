@@ -31,23 +31,26 @@
             };
 
             var game = new Phaser.Game(config); //Variável para criar um novo jogo com o Phaser.
+
             var passarinho; //Variável para armazenar os dados do passarinho.
-            var descendo = true;
+
+            var descendo = true; //***VARIÁVEL PARA A TAREFA EXTRA: habilita a descida do passarinho.
 
 
-            //Preload: função carregar os elementos a serem mostrados na tela (background e passarinho).
+            //Preload: função para carregar os elementos a serem mostrados na tela (background e passarinho).
             function preload() {
                 this.load.image('bg', 'assets/bg_space.png');
                 this.load.spritesheet('bird', 'assets/bird-purple.png', {frameWidth: 75, frameHeight: 75});
             }
         
 
-            //Create: função para criar os elementos a serem mostrados na tela
+            //Create: função para criar os elementos a serem mostrados na tela.
             function create() {
                 fundo = this.add.image(400, 300, 'bg').setScale(2.5);
                 passarinho = this.add.sprite(100, 300, 'bird').setScale(1.3);
 
-                //Criação da animação para ser aplicada ao passarinho
+
+                //Criação da animação para ser aplicada ao passarinho.
                 this.anims.create({
                     key: 'fly',
                     frames: this.anims.generateFrameNumbers('bird', {start: 0, end: 7}),
@@ -62,25 +65,25 @@
 
             //Update: função para atualizar os elementos na tela (sua movimentação e mecânica).
             function update() {
-                //Condição 1: se o passarinho estiver na sua posição inicial
+                //Condição 1: se o passarinho estiver na sua posição inicial, a sua ida é habilitada e seu desenho não é invertido.
                 if (passarinho.x === 100){
                     passarinho.ida = true;
-                    passarinho.setFlip(false, false); //setFlip (horizontal, vertical): espelhar imagens
+                    passarinho.setFlip(false, false); //setFlip (horizontal, vertical): espelhar imagens.
                 }
 
-                //Condição 2: se o passarinho estiver com seu valor horizontal menor que 700 e a ida estiver habilitada
+                //Condição 2: se o passarinho estiver com seu valor horizontal menor que 1250 e a ida estiver habilitada, o passarinho voa 5 posições para frente.
                 if (passarinho.x < 1250 && passarinho.ida == true){
                     passarinho.x += 5;
-                    console.log("O que acontece?")
+                    console.log("O que acontece? Resposta: o passarinho voa para frente.")
                 }
 
-                //Condição 3: se o passarinho alcançar a posição horizontal 700
+                //Condição 3: se o passarinho alcançar a posição horizontal 1250, sua ida é desabilitada e seu desenho é invertido horizontalmente (efeito de volta).
                 if(passarinho.x === 1250){
                     passarinho.ida = false;
                     passarinho.setFlip(true, false);
                 }
 
-                //Condição 4: se a posição horizontal do passarinho for maior que 100 e a ida estiver desabilitada
+                //Condição 4: se a posição horizontal do passarinho for maior que 100 e a ida estiver desabilitada, o passarinho voa 5 posições para trás.
                 if(passarinho.x > 100 && passarinho.ida === false){
                     passarinho.x -= 5;
                     console.log("E o que acontece agora?");
@@ -90,14 +93,21 @@
 
                 
 
-                //***TAREFA EXTRA: implementando o movimento vertical do passarinho.
+                //***TAREFA EXTRA: IMPLEMENTANDO O MOVIMENTO VERTICAL DO PASSARINHO***.
+
+                //Se a descida do passarinho for verdadeira, o passarinho desce uma posição até chegar em 550.
                 if(descendo){
                     passarinho.y += 1;
+
+                    //Se o passarinho chegou à posição y = 550, sua descida é desabilitada.
                     if(passarinho.y >= 550){
                         descendo = false;
                     }
                 }else{
+                    //Se a descida do passarinho for desabilitada, o passarinho sobe uma posição até chegar à posição y = 100.
                     passarinho.y -= 1;
+
+                    //Se o passarinho chegou à posição menor ou igual a 100, a descida é habilitada.
                     if(passarinho.y <= 100){
                         descendo = true;
                     }
