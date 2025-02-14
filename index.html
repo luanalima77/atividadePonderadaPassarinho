@@ -90,7 +90,7 @@
 
                 //Condição 2: se o passarinho estiver com seu valor horizontal menor que 1250 e a ida estiver habilitada, o passarinho voa 5 posições para frente.
                 if (bird.x < 1250 && bird.going === true){
-                    bird.x += 5;
+                    bird.x += 10;
                     console.log("O que acontece? Resposta: o passarinho voa para frente.");
                     console.log(`X: ${bird.x}`);
                     console.log(`Y : ${bird.y}`);
@@ -106,7 +106,7 @@
 
                 //Condição 4: se a posição horizontal do passarinho for maior que 100 e a ida estiver desabilitada, o passarinho voa 5 posições para trás.
                 if(bird.x > 100 && bird.going === false){
-                    bird.x -= 5;
+                    bird.x -= 10;
                     console.log("E o que acontece agora? O passarinho voa para trás.");
                     console.log(`X: ${bird.x}`);
                     console.log(`Y : ${bird.y}`);
