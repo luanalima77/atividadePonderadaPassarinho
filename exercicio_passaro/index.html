@@ -41,6 +41,7 @@
             var goingDown = true; //***VARIÁVEL PARA A TAREFA EXTRA: habilita a descida do passarinho.
 
 
+        
             //Preload: função para carregar os elementos a serem mostrados na tela (background e passarinho).
             function preload() {
                 this.load.image('city', 'assets/city.jpg');
@@ -49,6 +50,7 @@
                 this.load.spritesheet('bird-green', 'assets/bird-green.png', { frameWidth: 75, frameHeight: 75 }); 
             }
         
+
 
             //Create: função para criar os elementos a serem mostrados na tela.
             function create() {
@@ -74,6 +76,7 @@
 
                 bird.anims.play('fly-purple', true);
             }
+
 
 
             //Update: função para atualizar os elementos na tela (sua movimentação e mecânica).
@@ -142,7 +145,7 @@
                     }
                 }
 
-                // //Verificando se o passarinho está no intervalo menor que 700 na horizontal (momento em que o fundo vira cidade e o passarinho fica roxo).
+                //Verificando se o passarinho está no intervalo menor que 700 na horizontal (momento em que o fundo vira cidade e o passarinho fica roxo).
                 if (bird.x < 700) {
                     if (bird.texture.key !== 'bird-purple') {
                         bird.setTexture('bird-purple');
