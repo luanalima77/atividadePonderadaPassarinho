@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
         <title>Exercício do Pássaro</title>
+
+        <!--Estilização da página-->
         <style>
             body {
                 display: flex;
@@ -32,89 +34,123 @@
 
             var game = new Phaser.Game(config); //Variável para criar um novo jogo com o Phaser.
 
-            var passarinho; //Variável para armazenar os dados do passarinho.
+            var bird; //Variável para armazenar os dados do passarinho.
 
-            var descendo = true; //***VARIÁVEL PARA A TAREFA EXTRA: habilita a descida do passarinho.
+            var background; //Background do jogo.
+
+            var goingDown = true; //***VARIÁVEL PARA A TAREFA EXTRA: habilita a descida do passarinho.
 
 
             //Preload: função para carregar os elementos a serem mostrados na tela (background e passarinho).
             function preload() {
-                this.load.image('bg', 'assets/bg_space.png');
-                this.load.spritesheet('bird', 'assets/bird-purple.png', {frameWidth: 75, frameHeight: 75});
+                this.load.image('city', 'assets/city.jpg');
+                this.load.image('forest', 'assets/forest.jpg');
+                this.load.spritesheet('bird-purple', 'assets/bird-purple.png', {frameWidth: 75, frameHeight: 75});
+                this.load.spritesheet('bird-green', 'assets/bird-green.png', { frameWidth: 75, frameHeight: 75 }); 
             }
         
 
             //Create: função para criar os elementos a serem mostrados na tela.
             function create() {
-                fundo = this.add.image(400, 300, 'bg').setScale(2.5);
-                passarinho = this.add.sprite(100, 300, 'bird').setScale(1.3);
+                background = this.add.image(400, 300, 'city').setScale(0.7);
+                bird = this.add.sprite(100, 300, 'bird-purple').setScale(1.3);
+                
 
-
-                //Criação da animação para ser aplicada ao passarinho.
+                //Criação da animação para ser aplicada ao passarinho quando ele estiver roxo.
                 this.anims.create({
-                    key: 'fly',
-                    frames: this.anims.generateFrameNumbers('bird', {start: 0, end: 7}),
+                    key: 'fly-purple',
+                    frames: this.anims.generateFrameNumbers('bird-purple', { start: 0, end: 7 }),
                     frameRate: 10,
                     repeat: -1,
-                })
+                });
 
-                //Aplicando a animação ao passarinho.
-                passarinho.anims.play('fly', true); 
+               //Criação da animação para ser aplicada ao passarinho quando ele estiver verde.
+                this.anims.create({
+                    key: 'fly-green',
+                    frames: this.anims.generateFrameNumbers('bird-green', { start: 0, end: 7 }),
+                    frameRate: 10,
+                    repeat: -1,
+                });
+
+                bird.anims.play('fly-purple', true);
             }
 
 
             //Update: função para atualizar os elementos na tela (sua movimentação e mecânica).
             function update() {
                 //Condição 1: se o passarinho estiver na sua posição inicial, a sua ida é habilitada e seu desenho não é invertido.
-                if (passarinho.x === 100){
-                    passarinho.ida = true;
-                    passarinho.setFlip(false, false); //setFlip (horizontal, vertical): espelhar imagens.
+                if (bird.x === 100){
+                    bird.going = true;
+                    bird.setFlip(false, false); //setFlip (horizontal, vertical): espelhar imagens.
                 }
+
 
                 //Condição 2: se o passarinho estiver com seu valor horizontal menor que 1250 e a ida estiver habilitada, o passarinho voa 5 posições para frente.
-                if (passarinho.x < 1250 && passarinho.ida == true){
-                    passarinho.x += 5;
-                    console.log("O que acontece? Resposta: o passarinho voa para frente.")
+                if (bird.x < 1250 && bird.going == true){
+                    bird.x += 5;
+                    console.log("O que acontece? Resposta: o passarinho voa para frente.");
+                    console.log(`X: ${bird.x}`);
+                    console.log(`Y : ${bird.y}`);
                 }
+
 
                 //Condição 3: se o passarinho alcançar a posição horizontal 1250, sua ida é desabilitada e seu desenho é invertido horizontalmente (efeito de volta).
-                if(passarinho.x === 1250){
-                    passarinho.ida = false;
-                    passarinho.setFlip(true, false);
+                if(bird.x === 1250){
+                    bird.going = false;
+                    bird.setFlip(true, false);
                 }
 
+                
                 //Condição 4: se a posição horizontal do passarinho for maior que 100 e a ida estiver desabilitada, o passarinho voa 5 posições para trás.
-                if(passarinho.x > 100 && passarinho.ida === false){
-                    passarinho.x -= 5;
-                    console.log("E o que acontece agora? O passarinho para trás.");
-                    console.log(`Y do passarinho: ${passarinho.y}`);
-                    console.log(passarinho.x);
+                if(bird.x > 100 && bird.going === false){
+                    bird.x -= 5;
+                    console.log("E o que acontece agora? O passarinho voa para trás.");
+                    console.log(`X: ${bird.x}`);
+                    console.log(`Y : ${bird.y}`);
                 }
 
                 
 
                 //***TAREFA EXTRA: IMPLEMENTANDO O MOVIMENTO VERTICAL DO PASSARINHO***
-
                 //Se a descida do passarinho for verdadeira, o passarinho desce uma posição até chegar em 550.
-                if(descendo){
-                    passarinho.y += 1;
+                if(goingDown){
+                    bird.y += 1;
 
                     //Se o passarinho chegou à posição y = 550, sua descida é desabilitada.
-                    if(passarinho.y >= 550){
-                        descendo = false;
+                    if(bird.y >= 550){
+                        goingDown = false;
                     }
                 }else{
                     //Se a descida do passarinho for desabilitada, o passarinho sobe uma posição até chegar à posição y = 100.
-                    passarinho.y -= 1;
+                    bird.y -= 1;
 
                     //Se o passarinho chegou à posição menor ou igual a 100, a descida é habilitada.
-                    if(passarinho.y <= 100){
-                        descendo = true;
+                    if(bird.y <= 100){
+                        goingDown = true;
                     }
                 }
 
+
                 //***TAREFA EXTRA: IMPLEMENTANDO UMA ESTRUTURA DE REPETIÇÃO
-                
+                //Verificando se o passarinho está no intervalo entre 700 e 1260 (momento em que o fundo vira floresta e o passarinho fica verde).
+                for (let i = 700; i <= 1260; i += 100) {
+                    if (bird.x >= i) {
+                        if (bird.texture.key !== 'bird-green') {
+                            bird.setTexture('bird-green');
+                            bird.anims.play('fly-green', true);
+                            background.setTexture('forest');
+                        }
+                    }
+                }
+
+                // //Verificando se o passarinho está no intervalo menor que 700 (momento em que o fundo vira cidade e o passarinho fica roxo).
+                if (bird.x < 700) {
+                    if (bird.texture.key !== 'bird-purple') {
+                        bird.setTexture('bird-purple');
+                        bird.anims.play('fly-purple', true);
+                        background.setTexture('city');
+                    }
+                }
             }
         </script>
     </body>
