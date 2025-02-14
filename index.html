@@ -78,7 +78,7 @@
 
             //Update: função para atualizar os elementos na tela (sua movimentação e mecânica).
             function update() {
-                //Condição 1: se o passarinho estiver na sua posição inicial, a sua ida é habilitada e seu desenho não é invertido.
+                //Condição 1: se o passarinho estiver na sua posição inicial (na horizontal), a sua ida é habilitada e seu desenho não é invertido.
                 if (bird.x === 100){
                     bird.going = true;
                     bird.setFlip(false, false); //setFlip (horizontal, vertical): espelhar imagens.
@@ -86,7 +86,7 @@
 
 
                 //Condição 2: se o passarinho estiver com seu valor horizontal menor que 1250 e a ida estiver habilitada, o passarinho voa 5 posições para frente.
-                if (bird.x < 1250 && bird.going == true){
+                if (bird.x < 1250 && bird.going === true){
                     bird.x += 5;
                     console.log("O que acontece? Resposta: o passarinho voa para frente.");
                     console.log(`X: ${bird.x}`);
@@ -111,19 +111,19 @@
 
                 
                 //***TAREFA EXTRA: IMPLEMENTANDO O MOVIMENTO VERTICAL DO PASSARINHO***
-                //Se a descida do passarinho for verdadeira, o passarinho desce uma posição até chegar em 550.
+                //Se a descida do passarinho for verdadeira, o passarinho desce uma posição até chegar em 550 (vertical).
                 if(goingDown){
                     bird.y += 1;
 
-                    //Se o passarinho chegou à posição y = 550, sua descida é desabilitada.
+                    //Se o passarinho chegou à posição 550 (vertical), sua descida é desabilitada.
                     if(bird.y >= 550){
                         goingDown = false;
                     }
                 }else{
-                    //Se a descida do passarinho for desabilitada, o passarinho sobe uma posição até chegar à posição y = 100.
+                    //Se a descida do passarinho for desabilitada, o passarinho sobe uma posição até chegar à posição 100 (vertical).
                     bird.y -= 1;
 
-                    //Se o passarinho chegou à posição menor ou igual a 100, a descida é habilitada.
+                    //Se o passarinho chegou à posição menor ou igual a 100 (vertical), a descida é habilitada.
                     if(bird.y <= 100){
                         goingDown = true;
                     }
@@ -131,7 +131,7 @@
 
 
                 //***TAREFA EXTRA: IMPLEMENTANDO UMA ESTRUTURA DE REPETIÇÃO
-                //Verificando se o passarinho está no intervalo entre 700 e 1260 (momento em que o fundo vira floresta e o passarinho fica verde).
+                //Verificando se o passarinho está no intervalo entre 700 e 1260 na horizontal (momento em que o fundo vira floresta e o passarinho fica verde).
                 for (let i = 700; i <= 1260; i += 100) {
                     if (bird.x >= i) {
                         if (bird.texture.key !== 'bird-green') {
@@ -142,7 +142,7 @@
                     }
                 }
 
-                // //Verificando se o passarinho está no intervalo menor que 700 (momento em que o fundo vira cidade e o passarinho fica roxo).
+                // //Verificando se o passarinho está no intervalo menor que 700 na horizontal (momento em que o fundo vira cidade e o passarinho fica roxo).
                 if (bird.x < 700) {
                     if (bird.texture.key !== 'bird-purple') {
                         bird.setTexture('bird-purple');
